@@ -8,14 +8,19 @@ class Node:
 class Tree:
     def __init__(self, root_data):
         self.root = Node(root_data)
+
     def traversal(self, node):
-        if node is None:
-            return None
-        self.traversal(node.left)
-        print(node.data, end=' ')
-        self.traversal(node.right)
-        if node==self.root:
-            print()
+        result = []
+        def inorder_traversal(_node):
+            if _node is None:
+                return
+            inorder_traversal(_node.left)
+            result.append(_node.data)
+            inorder_traversal(_node.right)
+        inorder_traversal(node)
+        if node == self.root:
+            print(' '.join(map(str, result)))
+        return result
     def insert(self, node, data):
         if node is None:
             return Node(data)
@@ -28,9 +33,9 @@ class Tree:
         return node
     def search(self, node, data):
         if node is None:
-            return 0
+            return False
         if node.data == data:
-            return 1
+            return True
         if data < node.data:
             return self.search(node.left, data)
         else:
